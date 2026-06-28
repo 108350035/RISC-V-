@@ -1,6 +1,6 @@
 `include "RISC_tb.v"
-`include "test_rom.v"
-`include "test_sram.v"
+`include "ts1n28hpcpuhdhvtb256x32m4swbso_170a_ssg0p81v0c.v"
+`include "ts3n28hpcpa4096x32m8mbs_130a_ssg0p81v0c.v"
 `ifdef RTL
 `include "RISC.v"
 `elsif GATE
@@ -65,20 +65,11 @@ PATTERN U_PATTERN(
 	.addr(addr)*/
 );
 
-test_rom U0(.CLK(clk) ,.CEN(1'b0) ,.A(pc[13:2]) ,.Q(inst));
-test_sram U1 (.QA(load_data) ,.CLKA(clk) ,.CENA((|store_req == 0) && (|load_req == 0)) ,.WENA(~store_req) ,.AA(addr[7:0]) ,.DA(store_data),
-   .OENA(1'b0),
-   .QB(),
-   .CLKB(1'b0),
-   .CENB(1'b1),
-   .WENB(4'b0),
-   .AB(8'b0),
-   .DB(32'b0),
-   .OENB(1'b0)
-);
-
-
-
+TS3N28HPCPA4096X32M8MBS U0(.A(pc[13:2]) ,.AM(pc[13:2]) ,.CEB(1'b0) ,.BIST(1'b0) ,.CEBM(1'b1) ,.CLK(clk) ,.SLP(1'b0) ,.RTSEL(2'b1) ,.PTSEL(2'b1) ,.Q(inst) ,.TRB(2'b1));
+TS1N28HPCPUHDHVTB256X32M4SWBSO U1 (.SLP(1'b0) ,.SD(1'b0) ,.CLK(~clk) ,.CEB((|store_req == 0) && (|load_req == 0)) ,.CEBM((|store_req == 0) && (|load_req == 0)) 
+                    ,.WEB(~store_req) ,.WEBM(1'b1)
+					,.Q(load_data) ,.A(addr[7:0]) ,.D(store_data) ,.RTSEL(2'b0) ,.WTSEL(2'b0) ,.BIST(1'b0)  ,.BWEB({{8{~store_req[3]}},{8{~store_req[2]}},
+							{8{~store_req[1]}},{8{~store_req[0]}}}) ,.BWEBM('b0) ,.AM('b0) ,.DM('b0) );
 initial begin
 	`ifdef RTL
 		$fsdbDumpfile("RISC.fsdb");
