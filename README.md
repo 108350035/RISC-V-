@@ -1,7 +1,8 @@
-# RISC-V 晶片
-實現RV32I指令(不包含CSR、ECALL等系統指令) 以及RV32M指令(乘法、除法、取餘)
+# 基於tsmc 28nm 實現 RISC-V功能之晶片設計
 
-180nm實現，測試ROM為4096 word，SRAM為 256 word
+RV32I指令(不包含CSR、ECALL等系統指令) 以及RV32M指令(乘法、除法、取餘)功能實現
+
+基於28nm以及以1P7M-5X1Z實現，測試ROM為4096 word，SRAM為 256 word
 
 實現指令如圖
 
